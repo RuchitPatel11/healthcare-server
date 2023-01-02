@@ -84,4 +84,112 @@ router.post("/login", async (req, res, next) => {
   res.status(200).send({ email: user.email, token: accessToken });
 });
 
+
+// const { Router } = require("express");
+// const userController = require("../controllers/user.controller");
+// const userValidations = require("../validations/user.validations");
+// const tokenController = require("../controllers/token.controller");
+// const authenticate = require("../middleware/authenticate");
+// const authorize = require("../middleware/authorize");
+
+// // Path: /user
+// const usersRouter = Router();
+
+// // Verify token
+// usersRouter.get("/token/check", tokenController.verifyToken, (req, res) => {
+//   res.send();
+// });
+
+// // Regenerate new token
+// usersRouter.get(
+//   "/token/regenerate",
+//   tokenController.regenerateToken,
+//   (req, res) => {
+//     res.send();
+//   }
+// );
+
+// // Create user password if token is valid
+// usersRouter.put(
+//   "/set-password",
+//   tokenController.verifyToken,
+//   userValidations.password,
+//   userController.createPassword,
+//   (req, res) => {
+//     res.send();
+//   }
+// );
+
+// // Login
+// usersRouter.post(
+//   "/login",
+//   userValidations.login,
+//   userController.login,
+//   userController.generateAccessToken,
+//   (req, res) => {
+//     const { user, token } = res.locals;
+//     res.send({
+//       token,
+//       user: {
+//         firstName: user.firstName,
+//         lastName: user.lastName,
+//         email: user.email,
+//         role: user.role,
+//         title: user.title,
+//       },
+//     });
+//   }
+// );
+
+// // Reset password
+// usersRouter.post(
+//   "/reset-password",
+//   userValidations.email,
+//   userController.generatePasswordResetToken,
+//   (req, res) => {
+//     res.send();
+//   }
+// );
+
+// /*  ---------------
+//       Admin Routes
+//     ---------------  */
+
+// // Middleware
+// usersRouter.use(authenticate);
+// usersRouter.use((req, res, next) => {
+//   authorize(["super-admin"], req, res, next);
+// });
+
+// // Create new user
+// usersRouter.post(
+//   "/",
+//   userValidations.createUser,
+//   userController.createUser,
+//   (req, res) => {
+//     res.send();
+//   }
+// );
+
+// // Update existing user
+// usersRouter.put(
+//   "/update/:id",
+//   userValidations.updateUser,
+//   userController.updateUserById,
+//   (req, res) => {
+//     res.send();
+//   }
+// );
+
+// // Approve account
+// usersRouter.put("/approve", userController.approveUser, (req, res) => {
+//   res.send();
+// });
+
+// // Get users
+// usersRouter.get("/", userController.getUsers);
+
+// // Approve accounts
+// module.exports = usersRouter;
+
 module.exports = router;
