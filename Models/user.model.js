@@ -15,7 +15,7 @@ const userSchema = new Schema(
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     gender: { type: String, enum: ["Male", "Female"], required: true },
-    phoneNo: { type: String, required: true },
+    phoneNo: { type: String, required: true, unique: true },
     role: {
       type: String,
       enum: ["Doctor", "Pharmacist", "Nurse", "Admin"],
@@ -30,11 +30,18 @@ const userSchema = new Schema(
 module.exports.validateRegister = (user) => {
   const schema = Joi.object({
     email: Joi.string().email().required().trim(),
-    password: Joi.string().min(8).pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).trim(),
+    password: Joi.string()
+      .min(8)
+      .pattern(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      )
+      .trim(),
     first_name: Joi.string().required().min(3).max(15),
     last_name: Joi.string().required().min(3).max(15),
     gender: Joi.string().valid("Male", "Female").required(),
-    phoneNo: Joi.string().pattern(/^[6-9]{1}\d{9}$/),
+    phoneNo: Joi.string()
+      .pattern(/^[6-9]{1}\d{9}$/)
+      .required(),
     role: Joi.string()
       .valid("Doctor", "Pharmacist", "Nurse", "Admin")
       .required(),
@@ -46,7 +53,7 @@ module.exports.validateRegister = (user) => {
 
 module.exports.validateLogin = (user) => {
   const schema = Joi.object({
-    email: Joi.string().email().required(),
+    email: Joi.string().email().required().trim(),
     password: Joi.string().min(8).max(18).required(),
   });
   return schema.validate(user);

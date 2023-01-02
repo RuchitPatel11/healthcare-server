@@ -4,9 +4,11 @@ const express = require("express");
 const app = express();
 app.disable("x-powered-by");
 const userRoutes = require("./Routes/user.router");
-
+const patientRoutes = require("./Routes/patient.router");
+const auth = require("./middlewares/auth");
 //Database Connection
 const mongoose = require("mongoose");
+
 mongoose
   .connect("mongodb://localhost:27017/Healthcare")
   .then(() => console.log("Connected to MongoDB..."))
@@ -16,6 +18,8 @@ app.use(express.json());
 
 //ROUTES
 app.use("/user", userRoutes);
+app.use(auth);
+app.use("/patient", patientRoutes);
 
 //Route NOT Found
 app.use((req, res, next) => {
