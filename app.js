@@ -5,7 +5,7 @@ const app = express();
 app.disable("x-powered-by");
 const userRoutes = require("./Routes/user.router");
 const patientRoutes = require("./Routes/patient.router");
-const auth = require("./middlewares/auth");
+
 //Database Connection
 const mongoose = require("mongoose");
 
@@ -18,7 +18,6 @@ app.use(express.json());
 
 //ROUTES
 app.use("/user", userRoutes);
-app.use(auth);
 app.use("/patient", patientRoutes);
 
 //Route NOT Found
@@ -28,9 +27,11 @@ app.use((req, res, next) => {
 
 //Error Handler
 app.use((error, req, res, next) => {
+  console.log(error);
   // Error gets here
-  res.json({
+  res.status(500).json({
     message: error.message,
+    error,
   });
 });
 
