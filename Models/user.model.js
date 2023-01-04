@@ -21,7 +21,7 @@ const userSchema = new Schema(
       enum: ["Doctor", "Pharmacist", "Nurse", "Admin"],
       required: true,
     },
-    isVerified: { type: Boolean, default: false },
+    // isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -61,6 +61,6 @@ router.put("/update/:id", userController.updateUserById);
 router.delete("/delete/:id", userController.deleteUserById);
 
 // Middlewares
-// router.use(auth);
+router.use(authentication);
 
 module.exports = router;

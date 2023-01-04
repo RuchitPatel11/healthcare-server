@@ -124,7 +124,7 @@ const login = async (req, res, next) => {
     // if (!user.isVerified) return res.status(403).send("Account Not Verified");
 
     // Check password is valid or not
-    const passwordValid = bcrypt.compare(value.password, user.password);
+    const passwordValid = await bcrypt.compare(value.password, user.password);
 
     if (!passwordValid)
       return res.status(401).send("Invalid Username or password");

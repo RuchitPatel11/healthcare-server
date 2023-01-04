@@ -5,6 +5,10 @@ const app = express();
 app.disable("x-powered-by");
 const userRoutes = require("./Routes/user.router");
 const patientRoutes = require("./Routes/patient.router");
+const medicineRoutes = require("./Routes/medicine.router");
+const diseaseRoutes = require("./Routes/disease.router");
+const prescriptionRoutes = require("./Routes/prescription.router");
+
 
 //Database Connection
 const mongoose = require("mongoose");
@@ -19,6 +23,9 @@ app.use(express.json());
 //ROUTES
 app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
+app.use("/medicine", medicineRoutes);
+app.use("/disease", diseaseRoutes);
+app.use("/prescription", prescriptionRoutes);
 
 //Route NOT Found
 app.use((req, res, next) => {

@@ -4,7 +4,7 @@ const patientController = require("../controllers/patient.controller");
 //Add Patient
 router.post("/", patientController.addPatient);
 
-// Get a list of institutes
+// Get All Patients
 router.get("/", patientController.getPatient);
 
 //Get Patient By ID

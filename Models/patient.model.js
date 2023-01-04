@@ -18,6 +18,11 @@ const patientSchema = new Schema(
     bloodPressure: { type: String, required: true },
     bloodGroup: { type: String, enum: [...bloodGroup], required: true },
     sugarLevel: { type: String },
+    status: {
+      type: String,
+      enum: ["Under Treatment", "Registering Phase", "Treatment Complete"],
+      required: true,
+    },
   },
   { timestamps: true }
 );
@@ -41,6 +46,9 @@ module.exports.validatePatient = (patient) => {
       .valid(...bloodGroup)
       .required(),
     sugarLevel: Joi.string(),
+    status: Joi.string()
+      .valid("Under Treatment", "Registering Phase", "Treatment Complete")
+      .required(),
   });
   return schema.validate(patient);
 };
@@ -53,15 +61,18 @@ module.exports.validatePatientUpdate = (patient) => {
     weight: Joi.string(),
     gender: Joi.string().valid("Male", "Female"),
     email: Joi.string().email(),
-    phoneNo:
-      Joi.string()
-      .pattern(/^[6-9]{1}\d{9}$/),
+    phoneNo: Joi.string().pattern(/^[6-9]{1}\d{9}$/),
     address: Joi.string(),
     symptoms: Joi.array().items(Joi.string()),
     temperature: Joi.string(),
     bloodPressure: Joi.string(),
     bloodGroup: Joi.string().valid(...bloodGroup),
     sugarLevel: Joi.string(),
+    status: Joi.string().valid(
+      "Under Treatment",
+      "Registering Phase",
+      "Treatment Complete"
+    ),
   });
   return schema.validate(patient);
 };
