@@ -1,4 +1,8 @@
-const { validatePatient, Patient } = require("../Models/patient.model");
+const {
+  validatePatient,
+  Patient,
+  validatePatientUpdate,
+} = require("../Models/patient.model");
 
 const addPatient = async (req, res, next) => {
   const { error, value } = validatePatient(req.body);
@@ -16,23 +20,66 @@ const addPatient = async (req, res, next) => {
       if (err) return res.status(404).send(err);
       res.status(200).send(newPatient);
     });
-    return next();
+    return;
   } catch (error) {
     return next({ error });
   }
 };
 
 const getPatient = async (req, res, next) => {
-  const patient = await Patient.find();
-  if (!patient) return res.status(404).send("Patient Does Not exist");
-  res.send(patient);
-  next();
+  try {
+    const patient = await Patient.find();
+    if (!patient) return res.status(404).send("Patient Does Not exist");
+    res.send(patient);
+    return;
+  } catch (error) {
+    return next({ error });
+  }
 };
 
 const getPatientById = async (req, res, next) => {
-  const patient = await Patient.findById();
-  if (!patient) return res.status(404).send("Patient Does Not exist");
-  res.send(patient);
+  const { id } = req.params;
+  try {
+    const patient = await Patient.findById(id);
+
+    if (!patient) return res.status(400).send("Patient Does Not Exist");
+    res.send(patient);
+    return;
+  } catch (error) {
+    return next({ error });
+  }
 };
 
-module.exports = { addPatient, getPatient, getPatientById };
+const updatePatientById = async (req, res, next) => {
+  const { id } = req.params;
+
+  const { error, value } = validatePatientUpdate(req.body);
+  if (error) return res.status(404).send(error.message);
+  try {
+    const patient = await Patient.findByIdAndUpdate(id, value);
+    if (!patient) return res.status(400).send("Patient Does Not Exist");
+
+    return res.send(patient);
+  } catch (error) {
+    return next({ error });
+  }
+};
+
+const deletePatientById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const patient = await Patient.findByIdAndDelete(id);
+    res.send(patient);
+    return;
+  } catch (error) {
+    return next({ error });
+  }
+};
+
+module.exports = {
+  addPatient,
+  getPatient,
+  getPatientById,
+  updatePatientById,
+  deletePatientById,
+};

@@ -45,4 +45,25 @@ module.exports.validatePatient = (patient) => {
   return schema.validate(patient);
 };
 
+module.exports.validatePatientUpdate = (patient) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    age: Joi.string(),
+    height: Joi.string(),
+    weight: Joi.string(),
+    gender: Joi.string().valid("Male", "Female"),
+    email: Joi.string().email(),
+    phoneNo:
+      Joi.string()
+      .pattern(/^[6-9]{1}\d{9}$/),
+    address: Joi.string(),
+    symptoms: Joi.array().items(Joi.string()),
+    temperature: Joi.string(),
+    bloodPressure: Joi.string(),
+    bloodGroup: Joi.string().valid(...bloodGroup),
+    sugarLevel: Joi.string(),
+  });
+  return schema.validate(patient);
+};
+
 module.exports.Patient = mongoose.model("Patient", patientSchema);

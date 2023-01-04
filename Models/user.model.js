@@ -44,6 +44,7 @@ module.exports.validateRegister = (user) => {
   return schema.validate(user, { abortEarly: false });
 };
 
+// Validation for Password
 module.exports.validatePassword = (password) => {
   const schema = Joi.object({
     password: Joi.string()

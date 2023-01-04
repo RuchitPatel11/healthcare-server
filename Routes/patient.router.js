@@ -1,46 +1,19 @@
 const router = require("express").Router();
-const { Patient, validatePatient } = require("../Models/patient.model");
+const patientController = require("../controllers/patient.controller");
 
-router.use((req, res, next) => {
-  if (req.method === "POST" && req.user.role !== "Nurse") {
-    return res
-      .status(403)
-      .send("You don't have permission to access this resource.");
-  }
-  next();
-});
+//Add Patient
+router.post("/", patientController.addPatient);
 
-router.post("/", async (req, res, next) => {
-  const { error, value } = validatePatient(req.body);
+// Get a list of institutes
+router.get("/", patientController.getPatient);
 
-  if (error) return res.status(404).send(error.message);
+//Get Patient By ID
+router.get("/:id", patientController.getPatientById);
 
-  let patient = await Patient.findOne({
-    name: value.name,
-  });
-  if (patient) return res.status(403).send("Patient Already Exists!!");
+// Update Patient By ID
+router.put("/:id", patientController.updatePatientById);
 
-  const newPatient = new Patient(value);
-
-  newPatient.save(function (err) {
-    if (err) return res.status(404).send(err);
-    res.status(200).send(newPatient);
-  });
-});
-
-router.use((req, res, next) => {
-  if (req.method === "GET" && req.user.role !== "Doctor") {
-    return res
-      .status(403)
-      .send("You don't have permission to access this resource.");
-  }
-  next();
-});
-
-router.get("/", async (req, res, next) => {
-  const patient = await Patient.find();
-  if (!patient) return res.status(404).send("Patient Does Not exist");
-  res.send(patient);
-});
+// Delete Patient By ID
+router.delete("/:id", patientController.deletePatientById);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../Models/user.model");
 
 // Verify token is valid or not
-const auth = async (req, res, next) => {
+const authentication = async (req, res, next) => {
   let token = req.headers["authorization"];
   if (!token) return res.status(401).send("Not Authorized");
 
@@ -17,4 +17,4 @@ const auth = async (req, res, next) => {
   });
 };
 
-module.exports = auth;
+module.exports = authentication;

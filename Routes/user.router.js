@@ -1,11 +1,8 @@
 const router = require("express").Router();
 const userController = require("../controllers/user.controller");
 const tokenController = require("../controllers/token.controller");
-const {
-  User,
-  validateUpdateUser,
-} = require("../Models/user.model");
-const auth = require("../middlewares/auth");
+
+const authentication = require("../middlewares/authentication");
 
 // Verify Token
 router.get("/token/verify", tokenController.verifyToken, (req, res, next) => {
@@ -45,32 +42,25 @@ router.post(
   }
 );
 
-// Reset password
-// router.post("/passwordReset", userController.passwordResetToken, (req, res) => {
-//   res.send();
-// });
-
-// Create new user
+// Reset Password
 router.post(
-  "/register",
-
-  userController.addUser,
-  (req, res) => {
+  "/passwordReset",
+  userController.passwordResetToken,
+  (req, res, next) => {
     res.send();
   }
 );
 
-// // Update existing user
-router.put(
-  "/update/:id",
-  validateUpdateUser,
-  userController.updateUserById,
-  (req, res) => {
-    res.send();
-  }
-);
+// Create New User
+router.post("/register", userController.addUser);
+
+// Update User
+router.put("/update/:id", userController.updateUserById);
+
+// Delete User
+router.delete("/delete/:id", userController.deleteUserById);
 
 // Middlewares
-router.use(auth);
+// router.use(auth);
 
 module.exports = router;
