@@ -13,6 +13,12 @@ router.get("/:id", prescriptionController.getPrescriptionById);
 // Update Prescription By ID
 router.put("/:id", prescriptionController.updatePrescriptionById);
 
+// Update Prescription Medicine By ID
+router.put("/medicine/:id", prescriptionController.updatePrescriptionMedicine);
+
+// Update Prescription Medicine By ID
+router.put("/disease/:id", prescriptionController.updatePrescriptionDisease);
+
 // Delete Prescription By ID
 router.delete("/:id", prescriptionController.deletePrescriptionById);
 

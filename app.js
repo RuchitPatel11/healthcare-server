@@ -9,7 +9,6 @@ const medicineRoutes = require("./Routes/medicine.router");
 const diseaseRoutes = require("./Routes/disease.router");
 const prescriptionRoutes = require("./Routes/prescription.router");
 
-
 //Database Connection
 const mongoose = require("mongoose");
 
