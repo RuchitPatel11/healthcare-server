@@ -4,6 +4,9 @@ const tokenController = require("../controllers/token.controller");
 
 const authentication = require("../middlewares/authentication");
 
+// Create New User
+router.post("/register", userController.addUser);
+
 // Verify Token
 router.get("/token/verify", tokenController.verifyToken, (req, res, next) => {
   res.send();
@@ -51,8 +54,8 @@ router.post(
   }
 );
 
-// Create New User
-router.post("/register", userController.addUser);
+// Middlewares
+router.use(authentication);
 
 // Update User
 router.put("/update/:id", userController.updateUserById);
@@ -60,7 +63,6 @@ router.put("/update/:id", userController.updateUserById);
 // Delete User
 router.delete("/delete/:id", userController.deleteUserById);
 
-// Middlewares
-router.use(authentication);
+
 
 module.exports = router;

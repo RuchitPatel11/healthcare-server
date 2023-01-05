@@ -18,7 +18,7 @@ const addPatient = async (req, res, next) => {
 
     newPatient.save(function (err) {
       if (err) return res.status(404).send(err);
-      res.status(200).send(newPatient);
+      res.status(200).send("Patient Inserted Successfully");
     });
     return;
   } catch (error) {
@@ -59,7 +59,7 @@ const updatePatientById = async (req, res, next) => {
     const patient = await Patient.findByIdAndUpdate(id, value);
     if (!patient) return res.status(400).send("Patient Does Not Exist");
 
-    return res.send(patient);
+    return res.send("Patient Updated!!!");
   } catch (error) {
     return next({ error });
   }
@@ -69,7 +69,7 @@ const deletePatientById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const patient = await Patient.findByIdAndDelete(id);
-    res.send(patient);
+    res.send("Patient Deleted!!!");
     return;
   } catch (error) {
     return next({ error });

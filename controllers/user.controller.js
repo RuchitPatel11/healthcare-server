@@ -27,7 +27,7 @@ const addUser = async (req, res, next) => {
     const newUser = new User(value);
     await newUser.save();
 
-    res.status(200).send(newUser);
+    res.status(200).send("User Inserted Successfully !!");
 
     // Generate and save token
     const token = await generateToken();
@@ -51,7 +51,7 @@ const updateUserById = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(id, value);
     if (!user) return res.status(400).send("User Does Not Exist");
 
-    return res.send(user);
+    return res.send("User Updated Successfully!!");
   } catch (error) {
     return next({ error });
   }
@@ -62,7 +62,7 @@ const deleteUserById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await User.findByIdAndDelete(id);
-    res.send(user);
+    res.send("User Deleted");
     return;
   } catch (error) {
     return next({ error });
@@ -148,7 +148,7 @@ const accessToken = (req, res, next) => {
   const { user } = res.locals;
   const token = jwt.sign(
     { email: user.email, role: user.role },
-    process.env.secret_key,
+    process.env.SECRET_KEY,
     {
       expiresIn: "2d",
     }

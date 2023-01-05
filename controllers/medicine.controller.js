@@ -69,7 +69,8 @@ const deleteMedicineById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const medicine = await Medicine.findByIdAndDelete(id);
-    res.send(medicine);
+    if (!medicine) return res.status(400).send("Medicine Does Not Exist");
+    res.send("Medicine Deleted Successfully!!!");
     return;
   } catch (error) {
     return next({ error });

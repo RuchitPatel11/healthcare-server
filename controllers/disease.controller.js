@@ -28,8 +28,7 @@ const addDisease = async (req, res, next) => {
 
 const getDisease = async (req, res, next) => {
   try {
-    const disease = await Disease.find().populate(
-      "medicines",
+    const disease = await Disease.find().select(
       "-_id -__v -createdAt -updatedAt"
     );
     if (!disease) return res.status(404).send("Disease Does Not exist");
@@ -43,8 +42,7 @@ const getDisease = async (req, res, next) => {
 const getDiseaseById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const disease = await Disease.findById(id).populate(
-      "medicines",
+    const disease = await Disease.findById(id).select(
       "-_id -__v -createdAt -updatedAt"
     );
 
@@ -65,7 +63,7 @@ const updateDiseaseById = async (req, res, next) => {
     const disease = await Disease.findByIdAndUpdate(id, value);
     if (!disease) return res.status(400).send("Disease Does Not Exist");
 
-    return res.send(disease);
+    return res.send("Disease Updated!!!");
   } catch (error) {
     return next({ error });
   }
@@ -75,7 +73,8 @@ const deleteDiseaseById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const disease = await Disease.findByIdAndDelete(id);
-    res.send(disease);
+    if (!disease) return res.status(400).send("Disease Does Not Exist");
+    res.send("Disease Deleted Successfully!!!");
     return;
   } catch (error) {
     return next({ error });

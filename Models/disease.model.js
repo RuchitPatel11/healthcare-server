@@ -5,9 +5,8 @@ const Joi = require("joi");
 const diseaseSchema = new Schema(
   {
     name: { type: String, required: true },
-    medicines: [
-      { type: Schema.Types.ObjectId, ref: "Medicine", required: true },
-    ],
+    causes: [{ type: String }],
+    treatment: [{ type: String }]
   },
   { timestamps: true }
 );
@@ -15,7 +14,8 @@ const diseaseSchema = new Schema(
 module.exports.validateDisease = (disease) => {
   const schema = Joi.object({
     name: Joi.string().required(),
-    medicines: Joi.array().items(Joi.string()).required(),
+    causes:Joi.array().items(Joi.string()),
+    treatment:Joi.array().items(Joi.string())
   });
   return schema.validate(disease);
 };
@@ -23,7 +23,8 @@ module.exports.validateDisease = (disease) => {
 module.exports.validateDiseaseUpdate = (disease) => {
   const schema = Joi.object({
     name: Joi.string(),
-    medicines: Joi.array().items(Joi.string()),
+    causes:Joi.array().items(Joi.string()),
+    treatment:Joi.array().items(Joi.string())
   });
   return schema.validate(disease);
 };
