@@ -7,6 +7,7 @@ const userRoutes = require("./Routes/user.router");
 const patientRoutes = require("./Routes/patient.router");
 const medicineRoutes = require("./Routes/medicine.router");
 const diseaseRoutes = require("./Routes/disease.router");
+const nurseTaskRoutes = require("./Routes/nurseTask.router");
 const prescriptionRoutes = require("./Routes/prescription.router");
 
 //Database Connection
@@ -24,6 +25,7 @@ app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
 app.use("/medicine", medicineRoutes);
 app.use("/disease", diseaseRoutes);
+app.use("/nurseTask", nurseTaskRoutes);
 app.use("/prescription", prescriptionRoutes);
 
 //Route NOT Found

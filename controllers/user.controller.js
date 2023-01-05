@@ -62,6 +62,7 @@ const deleteUserById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await User.findByIdAndDelete(id);
+    if (!user) return res.status(400).send("User Does Not Exist");
     res.send("User Deleted");
     return;
   } catch (error) {

@@ -2,7 +2,7 @@ const {
   validateNurseTask,
   NurseTask,
   validateNurseTaskUpdate,
-} = require("../Models/task.model");
+} = require("../Models/nurseTask.model");
 
 const addTask = async (req, res, next) => {
   const { error, value } = validateNurseTask(req.body);
@@ -28,7 +28,9 @@ const addTask = async (req, res, next) => {
 
 const getTask = async (req, res, next) => {
   try {
-    const task = await NurseTask.find();
+    const task = await NurseTask.find()
+      .populate("patient", "-_id -__v -createdAt -updatedAt")
+      .select("-_id -__v -createdAt -updatedAt");
     if (!task) return res.status(404).send("Task Does Not exist");
     res.send(task);
     return;
@@ -40,7 +42,9 @@ const getTask = async (req, res, next) => {
 const getTaskById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const task = await NurseTask.findById(id);
+    const task = await NurseTask.findById(id)
+      .populate("patient", "-_id -__v -createdAt -updatedAt")
+      .select("-_id -__v -createdAt -updatedAt");
 
     if (!task) return res.status(400).send("Task Does Not Exist");
     res.send(task);
@@ -59,7 +63,7 @@ const updateTaskById = async (req, res, next) => {
     const task = await NurseTask.findByIdAndUpdate(id, value);
     if (!task) return res.status(400).send("Task Does Not Exist");
 
-    return res.send(task);
+    return res.send("Task Updated!");
   } catch (error) {
     return next({ error });
   }
@@ -69,7 +73,8 @@ const deleteTaskById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const task = await NurseTask.findByIdAndDelete(id);
-    res.send(task);
+    if (!task) return res.status(400).send("Task Does Not Exist");
+    res.send("Task Deleted Successfully !!!");
     return;
   } catch (error) {
     return next({ error });
