@@ -69,6 +69,7 @@ const deletePatientById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const patient = await Patient.findByIdAndDelete(id);
+    if (!patient) return res.status(400).send("Patient Does Not Exist");
     res.send("Patient Deleted!!!");
     return;
   } catch (error) {

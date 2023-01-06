@@ -3,6 +3,8 @@ const userController = require("../controllers/user.controller");
 const tokenController = require("../controllers/token.controller");
 
 const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
+
 
 // Create New User
 router.post("/register", userController.addUser);
@@ -56,13 +58,15 @@ router.post(
 
 // Middlewares
 router.use(authentication);
+router.use(authorizeRole(["Admin"]));
 
 // Update User
-router.put("/update/:id", userController.updateUserById);
+router.put(
+  "/update/:id",
+  authorizeRole(["Doctor"]),
+  userController.updateUserById
+);
 
 // Delete User
 router.delete("/delete/:id", userController.deleteUserById);
-
-
-
 module.exports = router;

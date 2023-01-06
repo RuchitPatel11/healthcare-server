@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const taskController = require("../controllers/nurseTask.controller");
+const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
 
+router.use(authentication);
 //Add NurseTask
 router.post("/", taskController.addTask);
 

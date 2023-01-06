@@ -3,23 +3,29 @@ const {
   NurseTask,
   validateNurseTaskUpdate,
 } = require("../Models/nurseTask.model");
+const { Patient } = require("../Models/patient.model");
 
 const addTask = async (req, res, next) => {
   const { error, value } = validateNurseTask(req.body);
 
   if (error) return res.status(404).send(error.message);
   try {
-    let task = await NurseTask.findOne({
-      patientId: value.patientId,
-    });
-    if (task) return res.status(403).send("Task Already Exists!!");
+    let patient = await Patient.findOne({ _id: value.patient });
+    if (patient) {
+      let task = await NurseTask.findOne({
+        patientId: value.patientId,
+      });
+      if (task) return res.status(403).send("Task Already Exists!!");
 
-    const newTask = new NurseTask(value);
+      const newTask = new NurseTask(value);
 
-    newTask.save(function (err) {
-      if (err) return res.status(404).send(err);
-      res.status(200).send("Task Inserted Successfully !!!");
-    });
+      newTask.save(function (err) {
+        if (err) return res.status(404).send(err);
+        res.status(200).send("Task Inserted Successfully !!!");
+      });
+    } else {
+      res.send("Patient Does Not Exist");
+    }
     return;
   } catch (error) {
     return next({ error });

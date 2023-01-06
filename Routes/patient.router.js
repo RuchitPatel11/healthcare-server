@@ -1,8 +1,11 @@
 const router = require("express").Router();
 const patientController = require("../controllers/patient.controller");
+const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
 
+router.use(authentication);
 //Add Patient
-router.post("/", patientController.addPatient);
+router.post("/", authorizeRole(["Nurse"]), patientController.addPatient);
 
 // Get All Patients
 router.get("/", patientController.getPatient);

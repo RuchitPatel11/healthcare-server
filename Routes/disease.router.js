@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const diseaseController = require("../controllers/disease.controller");
+const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
 
+router.use(authentication);
 //Add Disease
 router.post("/", diseaseController.addDisease);
 

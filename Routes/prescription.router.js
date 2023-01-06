@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const prescriptionController = require("../controllers/prescription.controller");
+const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
 
+router.use(authentication);
 //Add Prescription
 router.post("/", prescriptionController.addPrescription);
 

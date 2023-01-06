@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const medicineController = require("../controllers/medicine.controller");
+const authentication = require("../middlewares/authentication");
+const authorizeRole = require("../middlewares/authorization");
 
+router.use(authentication);
 //Add Medicine
 router.post("/", medicineController.addMedicine);
 
