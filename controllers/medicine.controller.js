@@ -26,7 +26,7 @@ const addMedicine = async (req, res, next) => {
   }
 };
 
-const getMedicine = async (req, res, next) => {
+const getMedicines = async (req, res, next) => {
   try {
     const medicine = await Medicine.find();
     if (!medicine) return res.status(404).send("Medicine Does Not exist");
@@ -79,7 +79,7 @@ const deleteMedicineById = async (req, res, next) => {
 
 module.exports = {
   addMedicine,
-  getMedicine,
+  getMedicines,
   getMedicineById,
   updateMedicineById,
   deleteMedicineById,

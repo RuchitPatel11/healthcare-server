@@ -8,7 +8,7 @@ router.use(authentication);
 router.post("/", taskController.addTask);
 
 // Get All NurseTasks
-router.get("/", taskController.getTask);
+router.get("/", taskController.getTasks);
 
 //Get NurseTask By ID
 router.get("/:id", taskController.getTaskById);

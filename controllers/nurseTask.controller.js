@@ -32,7 +32,7 @@ const addTask = async (req, res, next) => {
   }
 };
 
-const getTask = async (req, res, next) => {
+const getTasks = async (req, res, next) => {
   try {
     const task = await NurseTask.find()
       .populate("patient", "-_id -__v -createdAt -updatedAt")
@@ -66,10 +66,15 @@ const updateTaskById = async (req, res, next) => {
   const { error, value } = validateNurseTaskUpdate(req.body);
   if (error) return res.status(404).send(error.message);
   try {
-    const task = await NurseTask.findByIdAndUpdate(id, value);
-    if (!task) return res.status(400).send("Task Does Not Exist");
-
-    return res.send("Task Updated!");
+    let patient = await Patient.findById( value.patient );
+    if (patient) {
+      const task = await NurseTask.findByIdAndUpdate(id, value);
+      if (!task) return res.status(400).send("Task Does Not Exist");
+      return res.send("Task Updated!");
+    } else {
+      res.send("Patient Does Not Exist");
+    }
+    return;
   } catch (error) {
     return next({ error });
   }
@@ -89,7 +94,7 @@ const deleteTaskById = async (req, res, next) => {
 
 module.exports = {
   addTask,
-  getTask,
+  getTasks,
   getTaskById,
   updateTaskById,
   deleteTaskById,

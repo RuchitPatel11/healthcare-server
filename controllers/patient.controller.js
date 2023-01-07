@@ -26,7 +26,7 @@ const addPatient = async (req, res, next) => {
   }
 };
 
-const getPatient = async (req, res, next) => {
+const getPatients = async (req, res, next) => {
   try {
     const patient = await Patient.find();
     if (!patient) return res.status(404).send("Patient Does Not exist");
@@ -79,7 +79,7 @@ const deletePatientById = async (req, res, next) => {
 
 module.exports = {
   addPatient,
-  getPatient,
+  getPatients,
   getPatientById,
   updatePatientById,
   deletePatientById,

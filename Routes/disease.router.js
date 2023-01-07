@@ -4,11 +4,13 @@ const authentication = require("../middlewares/authentication");
 const authorizeRole = require("../middlewares/authorization");
 
 router.use(authentication);
+router.use(authorizeRole(["Admin"]));
+
 //Add Disease
 router.post("/", diseaseController.addDisease);
 
 // Get All Diseases
-router.get("/", diseaseController.getDisease);
+router.get("/", diseaseController.getDiseases);
 
 //Get Disease By ID
 router.get("/:id", diseaseController.getDiseaseById);

@@ -3,7 +3,6 @@ const authorizeRole = (rolesArray) => (req, res, next) => {
     return res.status(401).json({
       success: false,
       message: "Session expired",
-      code: "SESSION_EXPIRED",
     });
   }
 

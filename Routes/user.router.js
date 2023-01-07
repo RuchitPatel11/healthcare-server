@@ -5,7 +5,6 @@ const tokenController = require("../controllers/token.controller");
 const authentication = require("../middlewares/authentication");
 const authorizeRole = require("../middlewares/authorization");
 
-
 // Create New User
 router.post("/register", userController.addUser);
 
@@ -60,12 +59,11 @@ router.post(
 router.use(authentication);
 router.use(authorizeRole(["Admin"]));
 
+//Get User
+router.get("/", userController.getUsers);
+
 // Update User
-router.put(
-  "/update/:id",
-  authorizeRole(["Doctor"]),
-  userController.updateUserById
-);
+router.put("/update/:id", userController.updateUserById);
 
 // Delete User
 router.delete("/delete/:id", userController.deleteUserById);

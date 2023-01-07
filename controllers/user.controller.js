@@ -42,6 +42,31 @@ const addUser = async (req, res, next) => {
   }
 };
 
+//Get all Users
+const getUsers = async (req, res, next) => {
+  try {
+    const user = await User.find();
+    if (!user) return res.status(404).send("User Does Not exist");
+    res.send(user);
+    return;
+  } catch (error) {
+    return next({ error });
+  }
+};
+
+// Get User By ID
+const getUserById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(400).send("User Does Not Exist");
+    res.send(user);
+    return;
+  } catch (error) {
+    return next({ error });
+  }
+};
+
 //Update User By ID
 const updateUserById = async (req, res, next) => {
   const { id } = req.params;
@@ -161,6 +186,8 @@ const accessToken = (req, res, next) => {
 module.exports = {
   passwordResetToken,
   addUser,
+  getUsers,
+  getUserById,
   createPassword,
   login,
   accessToken,

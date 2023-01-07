@@ -8,7 +8,7 @@ router.use(authentication);
 router.post("/", prescriptionController.addPrescription);
 
 // Get All Prescriptions
-router.get("/", prescriptionController.getPrescription);
+router.get("/", prescriptionController.getPrescriptions);
 
 //Get Prescription By ID
 router.get("/:id", prescriptionController.getPrescriptionById);

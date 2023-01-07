@@ -26,7 +26,7 @@ const addDisease = async (req, res, next) => {
   }
 };
 
-const getDisease = async (req, res, next) => {
+const getDiseases = async (req, res, next) => {
   try {
     const disease = await Disease.find().select(
       "-_id -__v -createdAt -updatedAt"
@@ -83,7 +83,7 @@ const deleteDiseaseById = async (req, res, next) => {
 
 module.exports = {
   addDisease,
-  getDisease,
+  getDiseases,
   getDiseaseById,
   updateDiseaseById,
   deleteDiseaseById,
